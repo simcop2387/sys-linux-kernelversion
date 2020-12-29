@@ -1,3 +1,5 @@
 .build/
 ignored/
 Sys-Linux-KernelVersion-*
+*.swp
+*~

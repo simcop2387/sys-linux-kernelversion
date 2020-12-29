@@ -1,17 +1,22 @@
 package Sys::Linux::KernelVersion;
 
-use v5.8.1;
+# ABSTRACT: Gives tools for checking the current running linux kernel version
+
+use v5.8.3;
 use strict;
 use warnings;
 
 our $VERSION = '0.100';
+use Exporter 'import';
+
+our @EXPORT_OK = qw/is_linux_kernel get_kernel_version is_at_least_kernel_version is_development_kernel stringify_kernel_version/;
 
 # not a complicated check, probably doesn't need to exist either but sure
-sub is_linux { $^O eq 'linux' }
+sub is_linux_kernel { $^O eq 'linux' }
 
 my $linux_version;
 
-sub get_version {
+sub get_kernel_version {
   # cache the result, it shouldn't ever change while we run.  if it does TS for you.
   return $linux_version if $linux_version;
 
@@ -29,7 +34,7 @@ sub _parse_version_spec {
   if ($spec =~ /^(\d+)\.(\d+)\.(\d+)(-\S+)?$/) {
     my ($major, $minor, $revision, $subpart) = ($1, $2, $3, $4);
 
-    $linux_version = {major => $major, minor => $minor, revision => $revision, subpart => $subpart, subparts => [split /-/, $subpart]};
+    $linux_version = {major => $major, minor => $minor, revision => $revision, subpart => $subpart, subparts => [split /-/, $subpart||""]};
   } else {
     die "Invalid version spec";
   }
@@ -57,7 +62,7 @@ sub _cmp_version {
   return $left->{major} <=> $right->{major} || $left->{minor} <=> $right->{minor} || $left->{revision} <=> $right->{revision};
 }
 
-sub is_at_least_version {
+sub is_at_least_kernel_version {
   my $input = shift; # just a string as input
 
   my $running_version = get_version();
@@ -69,8 +74,8 @@ sub is_at_least_version {
 }
 
 # Is this a development kernel
-sub is_development {
-  my $running_version = get_version();
+sub is_development_kernel {
+  my $running_version = get_kernel_version();
 
   return _is_development($running_version);
 }
@@ -78,7 +83,7 @@ sub is_development {
 sub _is_development {
   my $version = shift;
 
-  my $last_dev_rev = _parse_version("2.5.9999"); # last one where the even/odd minor number was a thing
+  my $last_dev_rev = _parse_version_spec("2.5.9999"); # last one where the even/odd minor number was a thing
 
   if (_cmp_version($last_dev_rev, $version) != 1) {
     my $minor = $version->{minor};
@@ -91,6 +96,12 @@ sub _is_development {
 
     return ($subpart =~ /-rc\d/);
   }
+}
+
+sub stringify_kernel_version {
+  my $version = shift;
+
+  sprintf "%d.%d.%d%s", $version->{major}, $version->{minor}, $version->{revision}, $version->{subpart}||"";
 }
 
 1;
