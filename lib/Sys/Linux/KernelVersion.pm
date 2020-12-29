@@ -105,3 +105,75 @@ sub stringify_kernel_version {
 }
 
 1;
+
+__END__
+=head1 NAME
+
+Sys::Linux::KernelVersion
+
+=head1 DESCRIPTION
+
+=begin html
+
+<a href="https://github.com/simcop2387/sys-linux-kernel-version/actions?query=workflow%3A%22CI+-+Distzilla%22"><img src="https://github.com/simcop2387/sys-linux-kernelversion/workflows/CI%20-%20Distzilla/badge.svg"></a>
+
+=end html
+
+This is a simple module that helps look up the particular Linux kernel version number in a safe and otherwise portable way.  It's intended for doing configure_requires checks and also during test suites that can't test certain features on older kernels.
+
+=head1 EXPORTED FUNCTIONS
+
+=over
+
+=item C<get_kernel_version>
+
+Returns a hashref containing the parsed kernel version
+
+The hashref will always contain the following keys: major, minor, revision
+
+It may contain: subpart, subparts
+
+The subpart key will contain anything after the revision that was included as part of the version of the kernel.  There is no standard to how these must be formatted other than starting with a C<->. Most commonly you'll see things like C<-10>, C<-generic>, C<-amd64>, or even C<-rc4>, or a combination of all of those.  Usually a bare number like C<-10> will mean a build number, or a distro patch number.  C<-generic> is what Ubuntu likes to use for marking what kind of kernel it is, i.e. the generic configuration, a hardware enablement kernel, or a realtime kernel.  A sometimes present C<-amd64> would indicate that this is a kernel for an amd64 architecture.  None of these subparts are actually standard across vendors and can't be depended on to be present, or in any particular order.
+
+=item C<is_linux_kernel>
+
+Just a simple check that we actually appear to be running on a linux kernel, or at least something compatible enough to call itself linux.
+
+=item C<is_at_least_kernel_version>
+
+This takes a string as it's only parameter, to give a minimum version number.
+
+    use Sys::Linux::KernelVersion qw/is_at_least_kernel_version/;
+
+    die "Too old!" unless is_at_least_kernel_version("12.56.42");
+
+This is useful for segmenting off tests or failing a build early during module configuration if there's not at least a minimum kernel version running.
+
+If putting this into a test for a minimum kernel version running, I'd recommend also providing a way to override the check with an Environment Variable, so that build servers don't have to be running the same kernels as development or production release machines in all environments.  This would give a way for users to acknowledge that the check is incorrect/insufficient for their environments and checking that the versions in use is their responsibility.
+
+I would not use this to choose what features should be built or not-built in the module, instead that should happen at runtime so that features match the running kernel and not the building kernel.
+
+=item C<is_development_kernel>
+
+Check if the currently running kernel is a development series kernel.
+
+=back
+
+=head1 BUGS
+
+Report any issues on the public github bugtracker.
+
+=head1 AUTHOR
+
+Ryan Voots <simcop@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2020 by Ryan Voots.
+
+This is free software, licensed under:
+
+  The Artistic License 2.0 (GPL Compatible)
+
+=head1 SEE ALSO
+
