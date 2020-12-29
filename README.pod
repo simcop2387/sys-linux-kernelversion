@@ -6,7 +6,7 @@ Sys::Linux::KernelVersion
 
 =begin html
 
-<a href="https://github.com/simcop2387/sys-linux-kernel-version/actions?query=workflow%3A%22CI+-+Distzilla%22"><img src="https://github.com/simcop2387/sys-linux-kernelversion/workflows/CI%20-%20Distzilla/badge.svg"></a>
+<a href="https://github.com/simcop2387/sys-linux-kernelversion/actions?query=workflow%3A%22CI+-+Distzilla%22"><img src="https://github.com/simcop2387/sys-linux-kernelversion/workflows/CI%20-%20Distzilla/badge.svg"></a>
 
 =end html
 
