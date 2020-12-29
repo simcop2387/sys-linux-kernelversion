@@ -85,7 +85,7 @@ sub _is_development {
 
   my $last_dev_rev = _parse_version_spec("2.5.9999"); # last one where the even/odd minor number was a thing
 
-  if (_cmp_version($last_dev_rev, $version) != 1) {
+  if (_cmp_version($last_dev_rev, $version) != -1) {
     my $minor = $version->{minor};
 
     return 1 if ($minor % 2);
@@ -93,7 +93,7 @@ sub _is_development {
   } else {
     # There's no longer any proper development series like there used to be, but there are -rcN kernels during development, these should count
     my $subpart = $version->{subpart} || "";
-
+    
     return ($subpart =~ /-rc\d/);
   }
 }
