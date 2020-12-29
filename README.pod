@@ -1,0 +1,32 @@
+=head1 NAME
+
+Sys::Linux::KernelVersion
+
+=head1 DESCRIPTION
+
+=begin html
+
+<a href="https://github.com/simcop2387/sys-linux-kernel-version/actions?query=workflow%3A%22CI+-+Distzilla%22"><img src="https://github.com/simcop2387/sys-linux-kernelversion/workflows/CI%20-%20Distzilla/badge.svg"></a>
+
+=end html
+
+This is a simple module that helps look up the particular Linux kernel version number in a safe and otherwise portable way.  It's intended for doing configure_requires checks and also during test suites that can't test certain features on older kernels.
+
+=head1 BUGS
+
+Report any issues on the public github bugtracker.
+
+=head1 AUTHOR
+
+Ryan Voots <simcop@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2020 by Ryan Voots.
+
+This is free software, licensed under:
+
+  The Artistic License 2.0 (GPL Compatible)
+
+=head1 SEE ALSO
+
