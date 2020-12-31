@@ -10,12 +10,15 @@ on:
 
 jobs:
   perl-job:
-    runs-on: [self-hosted, "${{ matrix.architecture }}" ]
+    runs-on: [self-hosted, "${{ matrix.architecture }}", "kernel-${{kernel-version}}" ]
     container:
       image: perl:${{ matrix.perl-version }}
     strategy:
       fail-fast: false
       matrix:
+        kernel-version:
+          - "5.10"
+          - "5.6"
         architecture:
           - X64
         perl-version:
