@@ -1,4 +1,6 @@
 {{$NEXT}}
+* Fix missing tests on is_at_least_kernel_version()
+* Fix broken is_at_least_kernel_version()
 
 0.101     2020-12-29 13:16:40 PST
 * Fix README.pod in dist
