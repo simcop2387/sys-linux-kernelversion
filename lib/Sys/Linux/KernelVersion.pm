@@ -6,7 +6,7 @@ use v5.8.3;
 use strict;
 use warnings;
 
-our $VERSION = '0.102';
+our $VERSION = '0.103';
 use Exporter 'import';
 
 our @EXPORT_OK = qw/is_linux_kernel get_kernel_version is_at_least_kernel_version is_development_kernel stringify_kernel_version/;
